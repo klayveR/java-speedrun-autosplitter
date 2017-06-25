@@ -3,13 +3,16 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    private SceneController sceneController;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        new SceneController(primaryStage);
+        this.sceneController = new SceneController(primaryStage);
     }
 
     @Override
     public void stop() {
-        // Nothing ever happens...
+        // On close, save the changes to any projects
+        this.sceneController.getProjectManager().saveProjectsFile();
     }
 }

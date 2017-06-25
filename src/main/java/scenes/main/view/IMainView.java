@@ -1,5 +1,6 @@
 package scenes.main.view;
 
+import javafx.scene.control.ListView;
 import scenes.main.presenter.MainPresenter;
 import javafx.scene.Scene;
 
@@ -9,4 +10,6 @@ public interface IMainView {
     Scene getScene();
 
     void setPresenter(MainPresenter mainPresenter);
+
+    ListView<String> getProjectList();
 }

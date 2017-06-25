@@ -14,6 +14,9 @@ gradlew.bat
 # Logfiles:
 *.log
 
+# Savefiles:
+*.save
+
 ## File-based project format:
 *.iws
 *.iml

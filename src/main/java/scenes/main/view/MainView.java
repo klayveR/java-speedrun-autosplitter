@@ -43,12 +43,16 @@ public class MainView implements IMainView {
         Button loadProjectButton = new Button("Load project");
         loadProjectButton.addEventHandler(ActionEvent.ACTION, event -> presenter.loadProject());
 
+        Button deleteProjectButton = new Button("Remove project");
+        deleteProjectButton.addEventHandler(ActionEvent.ACTION, event -> presenter.deleteProject());
+
         GridPane.setConstraints(this.projectList, 0, 0, 2, 1);
-        GridPane.setConstraints(loadProjectButton, 0, 1, 2, 1);
+        GridPane.setConstraints(loadProjectButton, 0, 1, 1, 1);
+        GridPane.setConstraints(deleteProjectButton, 1, 1, 1, 1);
         GridPane.setConstraints(newProjectText, 0, 2, 1, 1);
         GridPane.setConstraints(newProjectButton, 1, 2, 1, 1);
 
-        root.getChildren().addAll(newProjectText, newProjectButton, this.projectList, loadProjectButton);
+        root.getChildren().addAll(newProjectText, newProjectButton, this.projectList, deleteProjectButton, loadProjectButton);
 
         this.scene = new Scene(root);
     }

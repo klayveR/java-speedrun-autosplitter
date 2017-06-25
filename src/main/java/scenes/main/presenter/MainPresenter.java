@@ -2,6 +2,8 @@ package scenes.main.presenter;
 
 import controller.SceneController;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import project.Project;
 import scenes.main.view.IMainView;
 import scenes.main.view.MainView;
@@ -46,8 +48,7 @@ public class MainPresenter {
             this.updateProjectList();
             this.toProjectScene();
         } else {
-            // TODO
-            log.debug("Project couldn't be created because it exists/name exists");
+            this.sceneController.showWarnDialog("Couldn't create project", "The project couldn't be created because another project with the same name already exists.");
         }
     }
 
@@ -63,12 +64,10 @@ public class MainPresenter {
             if (this.sceneController.getProjectManager().loadProject(selectedProject)) {
                 this.toProjectScene();
             } else {
-                // TODO
-                log.debug("Project couldn't be loaded because it/the name doesn't exist");
+                this.sceneController.showErrorDialog("Couldn't load project", "The project couldn't be loaded because it doesn't exist.");
             }
         } else {
-            // TODO
-            log.debug("Project couldn't be loaded because nothing is selected");
+            this.sceneController.showInfoDialog("No project selected", "Please select the project you want to load from the list. If you don't have a project yet, create one!");
         }
     }
 

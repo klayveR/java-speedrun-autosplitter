@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import project.ProjectManager;
 import scenes.main.presenter.MainPresenter;
@@ -54,6 +55,35 @@ public class SceneController {
         }
 
         this.stage.setScene(this.mainPresenter.getView().getScene());
+    }
+
+    /**
+     * Shows a dialog, accessible from every scene
+     *
+     * @param alertType  The type of alert
+     * @param title      Title of the dialog window
+     * @param headerText Header text
+     * @param text       Message
+     */
+    public void showDialog(Alert.AlertType alertType, String title, String headerText, String text) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.setContentText(text);
+
+        alert.showAndWait();
+    }
+
+    public void showInfoDialog(String headerText, String text) {
+        this.showDialog(Alert.AlertType.INFORMATION, "Information", headerText, text);
+    }
+
+    public void showErrorDialog(String headerText, String text) {
+        this.showDialog(Alert.AlertType.ERROR, "Error", headerText, text);
+    }
+
+    public void showWarnDialog(String headerText, String text) {
+        this.showDialog(Alert.AlertType.WARNING, "Warning", headerText, text);
     }
 
     public ProjectManager getProjectManager() {

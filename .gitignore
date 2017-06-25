@@ -1,0 +1,20 @@
+# IntelliJ
+.idea
+
+# Gradle:
+gradlew
+gradlew.bat
+.gradle
+/gradle/
+/build/
+/client/build/
+/common/build/
+/server/build/
+
+# Logfiles:
+*.log
+
+## File-based project format:
+*.iws
+*.iml
+*.ipr

@@ -2,7 +2,6 @@ package scenes.main.presenter;
 
 import controller.SceneController;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 import project.Project;
 import scenes.main.view.IMainView;
 import scenes.main.view.MainView;

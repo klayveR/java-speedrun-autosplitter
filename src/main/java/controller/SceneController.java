@@ -1,9 +1,8 @@
 package controller;
 
-import project.Project;
+import javafx.stage.Stage;
 import project.ProjectManager;
 import scenes.main.presenter.MainPresenter;
-import javafx.stage.Stage;
 
 public class SceneController {
     private Stage stage;

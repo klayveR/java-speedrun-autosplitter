@@ -69,13 +69,13 @@ public class ProjectManager {
     }
 
     /**
-     * Removes a project
+     * Removes a project if it exists and not the current project
      *
      * @param project The project to be removed
      * @return true, if the project was removed successfully
      */
     public boolean removeProject(Project project) {
-        if (this.projects.contains(project)) {
+        if (this.projects.contains(project) && !project.equals(this.currentProject)) {
             this.projects.remove(project);
             return true;
         }

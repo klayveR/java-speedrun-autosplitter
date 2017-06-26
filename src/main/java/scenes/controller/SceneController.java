@@ -30,23 +30,15 @@ public class SceneController {
 
     /**
      * Builds the initial window of the program
-     *
-     * @return true, if the window has been initialized and is showing
      */
-    private boolean buildStage() {
+    private void buildStage() {
         if (this.stage != null) {
-            this.toMain();
-
             this.stage.setTitle("Speedrun Autosplitter");
             this.stage.setHeight(STAGE_HEIGHT);
             this.stage.setWidth(STAGE_WIDTH);
             this.stage.show();
-
-            if (this.stage.isShowing())
-                return true;
+            this.toMain();
         }
-
-        return false;
     }
 
     /**

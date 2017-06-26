@@ -1,4 +1,4 @@
-package speedrunapi;
+package game;
 
 import javafx.scene.control.ComboBox;
 import org.slf4j.Logger;
@@ -25,6 +25,7 @@ public class GameBoxWorker extends SwingWorker<List<String>, String> {
     protected List<String> doInBackground() throws Exception {
         // Disable game selection dropdown when update starts
         this.comboBox.setDisable(true);
+        this.comboBox.getItems().clear();
 
         List<String> gameNames = new ArrayList<>();
 

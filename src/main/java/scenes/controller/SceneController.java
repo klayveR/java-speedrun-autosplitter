@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import project.ProjectManager;
 import scenes.main.presenter.MainPresenter;
-import speedrunapi.GameManager;
+import game.GameManager;
 
 public class SceneController {
     private Stage stage;

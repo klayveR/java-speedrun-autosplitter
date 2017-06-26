@@ -1,9 +1,11 @@
-package speedrunapi;
+package api.game;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import game.Game;
+import game.GameManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +19,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameParser extends SwingWorker<List<Game>, Game> {
+public class GamesAPIParser extends SwingWorker<List<Game>, Game> {
     // Logger
     private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
@@ -29,7 +31,7 @@ public class GameParser extends SwingWorker<List<Game>, Game> {
     private static final int BULK_OFFSET_INCREASE = 1000;
     private static final int GAME_AMOUNT_MIN = 9500; // This is a rough estimate of the amount of games
 
-    public GameParser(GameManager gameManager) {
+    public GamesAPIParser(GameManager gameManager) {
         this.gameManager = gameManager;
     }
 

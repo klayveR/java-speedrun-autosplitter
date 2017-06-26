@@ -1,4 +1,4 @@
-package speedrunapi;
+package game;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -12,8 +12,8 @@ import scenes.main.view.IMainView;
 import scenes.main.view.MainView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import speedrunapi.Game;
-import speedrunapi.GameBoxWorker;
+import game.Game;
+import game.GameBoxWorker;
 
 import java.util.List;
 import java.util.Optional;

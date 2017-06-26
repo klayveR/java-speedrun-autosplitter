@@ -1,7 +1,8 @@
-package speedrunapi;
+package game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import api.game.GamesAPIParser;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -38,8 +39,8 @@ public class GameManager {
      * This can take a long time!
      */
     public void updateGames() {
-        GameParser gameParser = new GameParser(this);
-        gameParser.execute();
+        GamesAPIParser gamesAPIParser = new GamesAPIParser(this);
+        gamesAPIParser.execute();
     }
 
     /**

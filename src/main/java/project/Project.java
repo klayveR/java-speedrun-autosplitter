@@ -6,10 +6,11 @@ import java.util.List;
 
 public class Project implements Serializable {
     private List<Split> splits;
-    private String projectName;
+    private String gameName;
+    private String categoryName;
 
-    public Project(String projectName) {
-        this.projectName = projectName;
+    public Project(String gameName) {
+        this.gameName = gameName;
         this.splits = new ArrayList<>();
     }
 
@@ -33,7 +34,15 @@ public class Project implements Serializable {
             this.splits.remove(split);
     }
 
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     public String getProjectName() {
-        return this.projectName;
+        if (!this.categoryName.isEmpty()) {
+            return this.gameName + " - " + this.categoryName;
+        } else {
+            return this.gameName;
+        }
     }
 }

@@ -5,12 +5,15 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import project.Project;
 import project.ProjectManager;
 import scenes.main.view.IMainView;
 import scenes.main.view.MainView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import speedrunapi.Game;
+import speedrunapi.GameBoxWorker;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +32,7 @@ public class MainPresenter {
         this.view = new MainView();
         this.view.setPresenter(this);
         this.updateProjectList();
+        this.updateGameBox();
     }
 
     /**
@@ -42,8 +46,13 @@ public class MainPresenter {
     /**
      * Creates a new project
      */
-    public void createProject(String projectName) {
-        Project project = new Project(projectName);
+    public void createProject() {
+        String gameName = this.view.getGameBox().getValue();
+        String categoryName = this.view.getCategoryBox().getValue();
+        Project project = new Project(gameName);
+
+        if(!categoryName.isEmpty())
+            project.setCategoryName(categoryName);
 
         // Add project, if successful load project and switch scenes
         if (this.sceneController.getProjectManager().addProject(project)) {
@@ -95,7 +104,7 @@ public class MainPresenter {
                 ProjectManager projectManager = this.sceneController.getProjectManager();
 
                 // Attempt to delete project, if successful, update list, if not, show error dialog
-                if(projectManager.removeProject(projectManager.getProjectByName(selectedProject))) {
+                if (projectManager.removeProject(projectManager.getProjectByName(selectedProject))) {
                     this.updateProjectList();
                 } else {
                     this.sceneController.showErrorDialog("Couldn't delete project", "The project couldn't be deleted because it apparently doesn't exist.");
@@ -119,6 +128,35 @@ public class MainPresenter {
         // Add each project name to view list
         for (Project project : projects) {
             projectListItems.add(project.getProjectName());
+        }
+    }
+
+    /**
+     * Updates the list of games
+     */
+    public void updateGameBox() {
+        GameBoxWorker gbw = new GameBoxWorker(this.sceneController.getGameManager().getGames(), this.view.getGameBox());
+        gbw.execute();
+    }
+
+    /**
+     * Updates the category selection depending on which game has been selected
+     */
+    public void updateCategoryBox() {
+        String gameValue = this.view.getGameBox().getValue();
+        ComboBox<String> categoryBox = this.view.getCategoryBox();
+
+        if (this.view.getGameBox().getItems().contains(gameValue)) {
+            Game selectedGame = this.sceneController.getGameManager().getGame(gameValue);
+            if (selectedGame != null) {
+                categoryBox.setDisable(true);
+                categoryBox.getItems().clear();
+                categoryBox.getItems().addAll(selectedGame.getCategories());
+                categoryBox.setDisable(false);
+            }
+        } else {
+            if (!categoryBox.isDisable())
+                categoryBox.setDisable(true);
         }
     }
 

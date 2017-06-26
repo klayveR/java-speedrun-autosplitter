@@ -103,6 +103,8 @@ public class ProjectManager {
             ObjectInputStream ois = new ObjectInputStream(fis);
             this.projects = (List<Project>) ois.readObject();
             ois.close();
+
+            log.info("Project file loaded successfully");
         } catch (IOException e) {
             // TODO
             // Project file is most likely corrupted
@@ -122,6 +124,8 @@ public class ProjectManager {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(this.projects);
             oos.close();
+
+            log.info("Project file saved successfully");
         } catch (IOException e) {
             // TODO
             // Might be permissions, whatever, we'll see

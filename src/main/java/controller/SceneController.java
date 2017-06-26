@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import project.ProjectManager;
 import scenes.main.presenter.MainPresenter;
+import speedrunapi.GameManager;
 
 public class SceneController {
     private Stage stage;
@@ -12,8 +13,9 @@ public class SceneController {
     private static final int STAGE_HEIGHT = 480;
     private static final int STAGE_WIDTH = 720;
 
-    // Project manager
+    // Manager
     private ProjectManager projectManager;
+    private GameManager gameManager;
 
     // Presenter
     private MainPresenter mainPresenter;
@@ -21,6 +23,7 @@ public class SceneController {
     public SceneController(Stage stage) {
         this.stage = stage;
         this.projectManager = new ProjectManager();
+        this.gameManager = new GameManager();
 
         this.buildStage();
     }
@@ -89,4 +92,6 @@ public class SceneController {
     public ProjectManager getProjectManager() {
         return this.projectManager;
     }
+
+    public GameManager getGameManager() { return this.gameManager; }
 }

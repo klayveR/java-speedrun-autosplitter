@@ -1,5 +1,6 @@
 package scenes.main.view;
 
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import scenes.main.presenter.MainPresenter;
 import javafx.scene.Scene;
@@ -12,4 +13,8 @@ public interface IMainView {
     void setPresenter(MainPresenter mainPresenter);
 
     ListView<String> getProjectList();
+
+    ComboBox<String> getGameBox();
+
+    ComboBox<String> getCategoryBox();
 }

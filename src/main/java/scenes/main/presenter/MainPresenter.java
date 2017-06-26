@@ -1,6 +1,6 @@
 package scenes.main.presenter;
 
-import controller.SceneController;
+import scenes.controller.SceneController;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;

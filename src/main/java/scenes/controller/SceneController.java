@@ -1,4 +1,4 @@
-package controller;
+package scenes.controller;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;

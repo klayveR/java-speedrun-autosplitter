@@ -23,7 +23,7 @@ public class SceneController {
     public SceneController(Stage stage) {
         this.stage = stage;
         this.projectManager = new ProjectManager();
-        this.gameManager = new GameManager();
+        this.gameManager = new GameManager(this);
 
         this.buildStage();
     }
@@ -86,4 +86,6 @@ public class SceneController {
     }
 
     public GameManager getGameManager() { return this.gameManager; }
+
+    public MainPresenter getMainPresenter() { return this.mainPresenter; }
 }

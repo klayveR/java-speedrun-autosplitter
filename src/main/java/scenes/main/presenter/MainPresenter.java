@@ -116,6 +116,13 @@ public class MainPresenter {
     }
 
     /**
+     * Initiates an update of games and categories
+     */
+    public void updateGames() {
+        this.sceneController.getGameManager().updateGames();
+    }
+
+    /**
      * Updates the project list with the loaded projects from the ProjectManager
      */
     public void updateProjectList() {

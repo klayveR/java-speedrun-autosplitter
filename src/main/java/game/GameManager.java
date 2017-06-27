@@ -3,6 +3,7 @@ package game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import api.game.GamesAPIParser;
+import scenes.controller.SceneController;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,13 +13,18 @@ public class GameManager {
     // Logger
     private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
+    // Scene Controller
+    private SceneController sceneController;
+
     // Games file name
     private static final String GAMES_FILE = "games.save";
 
     // Games
     private List<Game> games = new ArrayList<>();
+    private boolean isUpdating = false;
 
-    public GameManager() {
+    public GameManager(SceneController sceneController) {
+        this.sceneController = sceneController;
         this.loadGames();
     }
 
@@ -39,8 +45,12 @@ public class GameManager {
      * This can take a long time!
      */
     public void updateGames() {
-        GamesAPIParser gamesAPIParser = new GamesAPIParser(this);
-        gamesAPIParser.execute();
+        if(!this.isUpdating) {
+            GamesAPIParser gamesAPIParser = new GamesAPIParser(this.sceneController);
+            gamesAPIParser.execute();
+        } else {
+            this.sceneController.showWarnDialog("Requesting update", "The update couldn't be requested because another update is already running.");
+        }
     }
 
     /**
@@ -107,4 +117,6 @@ public class GameManager {
     public List<Game> getGames() {
         return this.games;
     }
+
+    public void setUpdating(boolean isUpdating) { this.isUpdating = isUpdating; }
 }

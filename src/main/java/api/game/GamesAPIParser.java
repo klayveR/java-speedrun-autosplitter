@@ -6,8 +6,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import game.Game;
 import game.GameManager;
+import javafx.application.Platform;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import scenes.controller.SceneController;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -24,25 +28,59 @@ public class GamesAPIParser extends SwingWorker<List<Game>, Game> {
     private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
     // Game Manager
-    private GameManager gameManager;
+    private SceneController sceneController;
+
+    // Count of games available from API/parsed
+    private int gameCount = 0;
+    private int parsedGames = 0;
 
     private static final String API_URL = "http://www.speedrun.com/api/v1/games";
-    private static final int OFFSET_INCREASE = 200;
-    private static final int BULK_OFFSET_INCREASE = 1000;
-    private static final int GAME_AMOUNT_MIN = 9500; // This is a rough estimate of the amount of games
+    private static final int OFFSET_INCREASE = 200; // Offset increase per loop while getting games
+    private static final int BULK_OFFSET_INCREASE = 1000; // Offset increase per loop while getting game count
 
-    public GamesAPIParser(GameManager gameManager) {
-        this.gameManager = gameManager;
+    // This is roughly the latest known amount of games available for parsing
+    // It's intentionally lower than the actual amount in case games get deleted from the API
+    private static final int GAME_AMOUNT_MIN = 9800;
+
+    public GamesAPIParser(SceneController sceneController) {
+        this.sceneController = sceneController;
     }
 
     @Override
     public List<Game> doInBackground() throws Exception {
         log.debug("Starting games worker");
+
+        // Set the current updating status to true
+        this.sceneController.getGameManager().setUpdating(true);
+
+        if (this.sceneController.getMainPresenter() != null) {
+            ProgressIndicator updateGamesProgress = this.sceneController.getMainPresenter().getView().getUpdateGamesProgress();
+            Label updateGamesLabel = this.sceneController.getMainPresenter().getView().getUpdateGamesLabel();
+
+            // Show and initialize progress % and label to default values
+            Platform.runLater(() -> {
+                updateGamesProgress.setVisible(true);
+                updateGamesProgress.setProgress(0.0);
+
+                updateGamesLabel.setVisible(true);
+                updateGamesLabel.setText("Fetching data from speedrun.com...");
+            });
+        }
+
         return this.parseGamesJson();
     }
 
     @Override
     protected void process(List<Game> gamesChunk) {
+        parsedGames += gamesChunk.size();
+
+        // Update progress % and progress label
+        if (this.sceneController.getMainPresenter() != null) {
+            Platform.runLater(() -> {
+                this.sceneController.getMainPresenter().getView().getUpdateGamesProgress().setProgress((float) getProgress() / (float) 100);
+                this.sceneController.getMainPresenter().getView().getUpdateGamesLabel().setText(parsedGames + "/" + this.gameCount + " parsed");
+            });
+        }
         log.debug("Games parsed in last chunk: " + gamesChunk.size() + ", total progress: " + getProgress() + "%");
     }
 
@@ -50,7 +88,14 @@ public class GamesAPIParser extends SwingWorker<List<Game>, Game> {
     protected void done() {
         try {
             log.debug("Done with games worker, parsed " + get().size() + " games");
-            this.gameManager.onGamesUpdateDone(get());
+
+            // Make it possible to click the update button again and hide the progress label
+            Platform.runLater(() -> {
+                this.sceneController.getGameManager().setUpdating(false);
+                this.sceneController.getMainPresenter().getView().getUpdateGamesLabel().setVisible(false);
+            });
+
+            this.sceneController.getGameManager().onGamesUpdateDone(get());
         } catch (Exception ignore) {
             // Documentation says to ignore this, so I will
         }
@@ -63,7 +108,7 @@ public class GamesAPIParser extends SwingWorker<List<Game>, Game> {
      */
     public List<Game> parseGamesJson() {
         // Count amount of games available in REST API
-        int gameCount = this.countGames();
+        gameCount = this.countGames();
         log.debug("Games to parse: " + gameCount);
 
         // Games list
@@ -152,7 +197,7 @@ public class GamesAPIParser extends SwingWorker<List<Game>, Game> {
     /**
      * Counts the amount of games the speedrun.com REST API has
      *
-     * @return Amount of games
+     * @return Amount of games that are available from the API
      */
     public int countGames() {
         int offset = GAME_AMOUNT_MIN;

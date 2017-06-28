@@ -85,7 +85,11 @@ public class SceneController {
         return this.projectManager;
     }
 
-    public GameManager getGameManager() { return this.gameManager; }
+    public GameManager getGameManager() {
+        return this.gameManager;
+    }
 
-    public MainPresenter getMainPresenter() { return this.mainPresenter; }
+    public MainPresenter getMainPresenter() {
+        return this.mainPresenter;
+    }
 }

@@ -52,7 +52,7 @@ public class GameManager {
      * This can take a long time!
      */
     public void updateGames() {
-        if(!this.isUpdating) {
+        if (!this.isUpdating) {
             // Disable dropdowns
             this.sceneController.getMainPresenter().getView().getGameBox().setDisable(true);
             this.sceneController.getMainPresenter().getView().getCategoryBox().setDisable(true);
@@ -133,5 +133,7 @@ public class GameManager {
         return this.games;
     }
 
-    public void setUpdating(boolean isUpdating) { this.isUpdating = isUpdating; }
+    public void setUpdating(boolean isUpdating) {
+        this.isUpdating = isUpdating;
+    }
 }

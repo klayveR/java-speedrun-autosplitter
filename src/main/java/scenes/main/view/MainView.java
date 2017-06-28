@@ -137,7 +137,11 @@ public class MainView implements IMainView {
         return this.categoryBox;
     }
 
-    public ProgressIndicator getUpdateGamesProgress() { return this.updateGamesProgress; }
+    public ProgressIndicator getUpdateGamesProgress() {
+        return this.updateGamesProgress;
+    }
 
-    public Label getUpdateGamesLabel() { return this.updateGamesLabel; }
+    public Label getUpdateGamesLabel() {
+        return this.updateGamesLabel;
+    }
 }

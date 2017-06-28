@@ -51,7 +51,7 @@ public class MainPresenter {
         String gameName = this.view.getGameBox().getValue();
         String categoryName = this.view.getCategoryBox().getValue();
 
-        if(gameName != null && !gameName.isEmpty()) {
+        if (gameName != null && !gameName.isEmpty()) {
             Project project = new Project(gameName);
 
             if (categoryName != null && !categoryName.isEmpty())

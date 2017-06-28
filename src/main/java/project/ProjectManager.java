@@ -61,6 +61,7 @@ public class ProjectManager {
         // Add project if it's not added yet & name doesn't exist & name isn't empty
         if (!this.projects.contains(project)
                 && !this.hasProject(project.getProjectName())
+                && project.getProjectName() != null
                 && !project.getProjectName().isEmpty()) {
             this.projects.add(project);
             return true;

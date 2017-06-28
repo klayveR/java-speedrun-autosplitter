@@ -1,6 +1,7 @@
 package game;
 
 import javafx.scene.control.ComboBox;
+import org.controlsfx.control.textfield.TextFields;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,5 +46,8 @@ public class GameBoxWorker extends SwingWorker<List<String>, String> {
     @Override
     protected void done() {
         this.comboBox.setDisable(false);
+
+        // Update autocomplete items
+        TextFields.bindAutoCompletion(this.comboBox.getEditor(), this.comboBox.getItems());
     }
 }

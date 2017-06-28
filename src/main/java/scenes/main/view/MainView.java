@@ -2,12 +2,13 @@ package scenes.main.view;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import scenes.main.AutoCompleteComboBoxListener;
+import org.controlsfx.control.textfield.TextFields;
 import scenes.main.presenter.MainPresenter;
 
 public class MainView implements IMainView {
@@ -79,17 +80,21 @@ public class MainView implements IMainView {
     public VBox buildCreateUI() {
         VBox createRoot = new VBox(5);
 
+        // List of games dropdown
         gameBox = new ComboBox<>();
         gameBox.setPromptText("Select your game");
-        new AutoCompleteComboBoxListener<>(gameBox);
+        gameBox.setEditable(true);
 
+        // Listener: If gameBox value changes, check if there are categories for it
         gameBox.valueProperty().addListener((observableValue, string, gameName) -> presenter.updateCategoryBox());
 
+        // List of categories dropdown
         categoryBox = new ComboBox<>();
         categoryBox.setPromptText("Select run category");
         categoryBox.setDisable(true);
-        new AutoCompleteComboBoxListener<>(categoryBox);
+        categoryBox.setEditable(true);
 
+        // Button to create new project
         Button newProjectButton = new Button("Create project");
         newProjectButton.addEventHandler(ActionEvent.ACTION, event -> presenter.createProject());
 
@@ -103,6 +108,7 @@ public class MainView implements IMainView {
 
         updateGamesLabel = new Label();
         updateGamesLabel.setVisible(false);
+        updateGamesLabel.setAlignment(Pos.CENTER);
 
         createRoot.getChildren().addAll(gameBox, categoryBox, newProjectButton, updateGamesButton, updateGamesProgress, updateGamesLabel);
 

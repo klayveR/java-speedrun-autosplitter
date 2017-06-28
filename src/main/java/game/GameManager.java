@@ -36,6 +36,13 @@ public class GameManager {
     public void onGamesUpdateDone(List<Game> games) {
         this.games = games;
 
+        // Re-enable dropdowns
+        this.sceneController.getMainPresenter().getView().getGameBox().setDisable(false);
+        this.sceneController.getMainPresenter().getView().getCategoryBox().setDisable(false);
+
+        // Update games in game list dropdown
+        this.sceneController.getMainPresenter().updateGameBox();
+
         // Save games to file
         this.saveGamesFile();
     }
@@ -46,6 +53,14 @@ public class GameManager {
      */
     public void updateGames() {
         if(!this.isUpdating) {
+            // Disable dropdowns
+            this.sceneController.getMainPresenter().getView().getGameBox().setDisable(true);
+            this.sceneController.getMainPresenter().getView().getCategoryBox().setDisable(true);
+
+            // Clear list of games/categories value so creating a project while updating is not possible
+            this.sceneController.getMainPresenter().getView().getGameBox().setValue(null);
+            this.sceneController.getMainPresenter().getView().getCategoryBox().setValue(null);
+
             GamesAPIParser gamesAPIParser = new GamesAPIParser(this.sceneController);
             gamesAPIParser.execute();
         } else {

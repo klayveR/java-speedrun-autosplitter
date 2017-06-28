@@ -1,5 +1,6 @@
 package scenes.main.presenter;
 
+import org.controlsfx.control.textfield.TextFields;
 import scenes.controller.SceneController;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -49,18 +50,23 @@ public class MainPresenter {
     public void createProject() {
         String gameName = this.view.getGameBox().getValue();
         String categoryName = this.view.getCategoryBox().getValue();
-        Project project = new Project(gameName);
 
-        if(!categoryName.isEmpty())
-            project.setCategoryName(categoryName);
+        if(gameName != null && !gameName.isEmpty()) {
+            Project project = new Project(gameName);
 
-        // Add project, if successful load project and switch scenes
-        if (this.sceneController.getProjectManager().addProject(project)) {
-            this.sceneController.getProjectManager().loadProject(project);
-            this.updateProjectList();
-            this.toProjectScene();
+            if (categoryName != null && !categoryName.isEmpty())
+                project.setCategoryName(categoryName);
+
+            // Add project, if successful load project and switch scenes
+            if (this.sceneController.getProjectManager().addProject(project)) {
+                this.sceneController.getProjectManager().loadProject(project);
+                this.updateProjectList();
+                this.toProjectScene();
+            } else {
+                this.sceneController.showWarnDialog("Couldn't create project", "The project couldn't be created because another project with the same name already exists.");
+            }
         } else {
-            this.sceneController.showWarnDialog("Couldn't create project", "The project couldn't be created because another project with the same name already exists.");
+            this.sceneController.showWarnDialog("Couldn't create project", "To create a new project, you have to enter a game/project name. The project name can be anything, it doesn't necessarily have to be one of the games in the dropdown. Specifying a category is optional.");
         }
     }
 
@@ -107,7 +113,7 @@ public class MainPresenter {
                 if (projectManager.removeProject(projectManager.getProjectByName(selectedProject))) {
                     this.updateProjectList();
                 } else {
-                    this.sceneController.showErrorDialog("Couldn't delete project", "The project couldn't be deleted because it apparently doesn't exist.");
+                    this.sceneController.showErrorDialog("Couldn't delete project", "The project couldn't be deleted because it doesn't exist or is currently the loaded project.");
                 }
             }
         } else {
@@ -160,6 +166,9 @@ public class MainPresenter {
                 categoryBox.getItems().clear();
                 categoryBox.getItems().addAll(selectedGame.getCategories());
                 categoryBox.setDisable(false);
+
+                // Update autocomplete items
+                TextFields.bindAutoCompletion(categoryBox.getEditor(), categoryBox.getItems());
             }
         } else {
             if (!categoryBox.isDisable())

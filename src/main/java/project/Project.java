@@ -39,7 +39,7 @@ public class Project implements Serializable {
     }
 
     public String getProjectName() {
-        if (!this.categoryName.isEmpty()) {
+        if (this.categoryName != null && !this.categoryName.isEmpty()) {
             return this.gameName + " - " + this.categoryName;
         } else {
             return this.gameName;

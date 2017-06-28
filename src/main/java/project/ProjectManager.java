@@ -61,6 +61,7 @@ public class ProjectManager {
         // Add project if it's not added yet & name doesn't exist & name isn't empty
         if (!this.projects.contains(project)
                 && !this.hasProject(project.getProjectName())
+                && project.getProjectName() != null
                 && !project.getProjectName().isEmpty()) {
             this.projects.add(project);
             return true;
@@ -69,13 +70,13 @@ public class ProjectManager {
     }
 
     /**
-     * Removes a project
+     * Removes a project if it exists and not the current project
      *
      * @param project The project to be removed
      * @return true, if the project was removed successfully
      */
     public boolean removeProject(Project project) {
-        if (this.projects.contains(project)) {
+        if (this.projects.contains(project) && !project.equals(this.currentProject)) {
             this.projects.remove(project);
             return true;
         }
@@ -103,6 +104,8 @@ public class ProjectManager {
             ObjectInputStream ois = new ObjectInputStream(fis);
             this.projects = (List<Project>) ois.readObject();
             ois.close();
+
+            log.info("Project file loaded successfully");
         } catch (IOException e) {
             // TODO
             // Project file is most likely corrupted
@@ -122,6 +125,8 @@ public class ProjectManager {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(this.projects);
             oos.close();
+
+            log.info("Project file saved successfully");
         } catch (IOException e) {
             // TODO
             // Might be permissions, whatever, we'll see
